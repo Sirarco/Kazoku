@@ -290,8 +290,15 @@
 
       <!-- Opción Subir Foto -->
       <div id="media-upload-section">
-        <input type="file" id="entry-file" accept="image/*" style="display: none;" onchange="app.handleFileSelect(event)">
-        <button type="button" onclick="document.getElementById('entry-file').click()" style="background: #e2e8f0; color: #333; margin-bottom: 10px;">Examinar Galería / Cámara</button>
+        <!-- Dos inputs ocultos separados: uno fuerza cámara, el otro galería -->
+        <input type="file" id="entry-file-camera" accept="image/*" capture="environment" style="display: none;" onchange="app.handleFileSelect(event)">
+        <input type="file" id="entry-file-gallery" accept="image/*" style="display: none;" onchange="app.handleFileSelect(event)">
+        
+        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+          <button type="button" onclick="document.getElementById('entry-file-camera').click()" style="background: var(--color-primary); color: white; flex: 1;">📷 Tomar Foto</button>
+          <button type="button" onclick="document.getElementById('entry-file-gallery').click()" style="background: #e2e8f0; color: #333; flex: 1;">🖼️ Galería</button>
+        </div>
+
         <div id="preview-container">
           <img id="image-preview" src="" alt="Vista previa">
           <button type="button" id="btn-remove-img" class="btn-remove-img" onclick="app.removeImage()">✖</button>
@@ -731,7 +738,8 @@
       removeImage() {
         this.state.currentBase64 = null;
         this.state.currentMimeType = null;
-        document.getElementById('entry-file').value = "";
+        document.getElementById('entry-file-camera').value = "";
+        document.getElementById('entry-file-gallery').value = "";
         document.getElementById('image-preview').style.display = 'none';
         document.getElementById('btn-remove-img').style.display = 'none';
       },
